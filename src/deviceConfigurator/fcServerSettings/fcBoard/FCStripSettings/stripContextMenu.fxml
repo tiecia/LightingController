@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+
+<ContextMenu xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deviceConfigurator.fcServerSettings.fcBoard.FCStripSettings.StripContextMenu">
+    <items>
+        <MenuItem mnemonicParsing="false" onAction="#addLedStrip" text="Add LED Strip" />
+        <MenuItem mnemonicParsing="false" onAction="#addDmx" text="Add DMX Device" />
+        <MenuItem mnemonicParsing="false" onAction="#removeLedStrip" text="Remove LED Strip" />
+    </items>
+</ContextMenu>

@@ -1,0 +1,11 @@
+.root{
+    fx-background-color:darkred
+}
+
+vbox{
+    fx-background-color:goldenrod
+}
+
+button{
+    fx-background-color:goldenrod
+}
