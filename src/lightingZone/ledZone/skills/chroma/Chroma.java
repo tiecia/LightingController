@@ -3,18 +3,23 @@ package lightingZone.ledZone.skills.chroma;
 import devices.ControllableItem;
 import devices.opc.Animation;
 import devices.opc.PixelStrip;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import lightingZone.ledZone.LedZone;
 import lightingZone.ledZone.skills.Skill;
 
 import java.io.IOException;
-import java.security.PublicKey;
-import java.util.Arrays;
+import java.net.URL;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 
-public class Chroma extends Animation implements Skill {
+public class Chroma extends Animation implements Skill, Initializable {
 
     private HashSet<ControllableItem> devices;
 
@@ -24,9 +29,20 @@ public class Chroma extends Animation implements Skill {
     private double hue = 0.0;
     private Color[] pixels;
 
+    private @FXML Slider delaySlider;
+    private @FXML Slider spreadSlider;
+    private @FXML Slider brightnessSlider;
+    private @FXML Slider saturationSlider;
+    private @FXML TextField delayText;
+    private @FXML TextField spreadText;
+    private @FXML TextField brightnessText;
+    private @FXML TextField saturationText;
+    private @FXML CheckBox reverseCheckbox;
+    private @FXML CheckBox solidCheckbox;
+
     //Options
     private boolean solidColor = false;
-    private boolean reverse = true;
+    private boolean reverse = false;
     private int frameDelay = 20;
     private int spread = 3;
     private int brightness = 100;
@@ -41,6 +57,57 @@ public class Chroma extends Animation implements Skill {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        delaySlider.valueProperty().addListener(e->{
+            valueChanged();
+            updateText();
+        });
+        spreadSlider.valueProperty().addListener(e->{
+            valueChanged();
+            updateText();
+        });
+        brightnessSlider.valueProperty().addListener(e->{
+            valueChanged();
+            updateText();
+        });
+        saturationSlider.valueProperty().addListener(e->{
+            valueChanged();
+            updateText();
+        });
+        delaySlider.setValue((int)frameDelay);
+        spreadSlider.setValue((int)spread);
+        brightnessSlider.setValue((int)brightness);
+        saturationSlider.setValue((int)saturation);
+    }
+
+    private @FXML void valueChanged(){
+        frameDelay = (int)delaySlider.getValue();
+        spread = (int)spreadSlider.getValue();
+        brightness = (int)brightnessSlider.getValue();
+        saturation = (int) saturationSlider.getValue();
+        solidColor = solidCheckbox.selectedProperty().get();
+        reverse = reverseCheckbox.selectedProperty().get();
+    }
+
+    private void updateText(){
+        delayText.setText(""+(int) delaySlider.getValue());
+        spreadText.setText(""+(int)spreadSlider.getValue());
+        brightnessText.setText(""+(int)brightnessSlider.getValue());
+        saturationText.setText(""+(int)saturationSlider.getValue());
+    }
+
+    private @FXML void textChanged(){
+        delaySlider.setValue(Integer.parseInt(delayText.getText()));
+        spreadSlider.setValue(Integer.parseInt(spreadText.getText()));
+        brightnessSlider.setValue(Integer.parseInt(brightnessText.getText()));
+        saturationSlider.setValue(Integer.parseInt(saturationText.getText()));
+    }
+
+    private void textEditListeners(){
+
     }
 
     @Override
@@ -75,7 +142,6 @@ public class Chroma extends Animation implements Skill {
             } else {
                 pixels[0] = c;
                 for(int i = strip.getPixelCount()-1; i>0; i--){ //Move color down the line;
-                    System.out.println(i);
                     pixels[i] = pixels[i-1];
                 }
             }

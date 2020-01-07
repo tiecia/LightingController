@@ -290,7 +290,6 @@ public class OpcClient implements AutoCloseable {
 	 * Push all pixel changes to the strip.
 	 */
 	public void show() {
-		System.out.println("Show");
 		if (!initialized) {
 			init();
 		}
