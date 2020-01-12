@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<ContextMenu xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <items>
+        <MenuItem mnemonicParsing="false" onAction="#addDevice" text="Add DMX Device" />
+        <MenuItem mnemonicParsing="false" onAction="#removeThisController" text="Remove DMX Controller" />
+    </items>
+</ContextMenu>

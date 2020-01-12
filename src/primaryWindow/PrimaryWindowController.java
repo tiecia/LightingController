@@ -20,18 +20,19 @@ import java.util.*;
 public class PrimaryWindowController implements Initializable {
 
     @FXML
-    BorderPane borderLayout;
+    private BorderPane borderLayout;
     @FXML
-    ListView<Zone> zoneList;
+    private ListView<Zone> zoneList;
+    private ZoneListContextMenu contextMenuController;
 
-    DeviceConfigurator devices;
-
-    Stage hardwareConfigurator;
+    private DeviceConfigurator devices;
+    private Stage hardwareConfigurator;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        zoneList.getSelectionModel().selectedItemProperty().addListener(e -> displayNewZone());
+        zoneList.getSelectionModel().selectedItemProperty().addListener(e -> zoneSelectionChanged());
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../deviceConfigurator/DeviceConfigurator.fxml"));
+        //Preload hardware configurator
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../deviceConfigurator/deviceConfigurator.fxml"));
         Parent parent = null;
         try {
             parent = loader.load();
@@ -43,33 +44,48 @@ public class PrimaryWindowController implements Initializable {
         this.hardwareConfigurator = new Stage();
         hardwareConfigurator.setScene(parentScene);
         hardwareConfigurator.initModality(Modality.APPLICATION_MODAL);
+
+        //Create and set zone context menus
+        contextMenuController = new ZoneListContextMenu(this);
+        zoneList.setContextMenu(contextMenuController.getMenu());
+
+        //Set zone list context menu state
+        if(zoneList.getSelectionModel().getSelectedItem() != null) {
+            contextMenuController.deselect(false);
+        } else {
+            contextMenuController.deselect(true);
+        }
     }
 
-    private void displayNewZone() {
-        borderLayout.setCenter(zoneList.getSelectionModel().getSelectedItem().getPanel());
+    private void zoneSelectionChanged() {
+        if(zoneList.getSelectionModel().getSelectedItem() != null) {
+            contextMenuController.deselect(false);
+            borderLayout.setCenter(zoneList.getSelectionModel().getSelectedItem().getPanel());
+        } else {
+            contextMenuController.deselect(true);
+            borderLayout.setCenter(null);
+        }
     }
 
     @FXML
-    private void addZone(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../lightingZone/createLightingZone.fxml"));
-        Parent content = null;
-        try {
-            content = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        CreateLightingZone controller = loader.getController();
-        controller.initData(devices);
-        Scene scene = new Scene(content);
-        Stage window = new Stage();
-        window.setScene(scene);
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.showAndWait();
+    public void addZone(){
+        CreateLightingZone newZoneDialog = new CreateLightingZone((Stage)zoneList.getScene().getWindow(), devices);
         //Wait for user
-
-        if(controller.getZone() != null){
-            zoneList.getItems().add(controller.getZone());
+        if(newZoneDialog.getZone() != null){
+            zoneList.getItems().add(newZoneDialog.getZone());
+            zoneList.getSelectionModel().selectLast();
         }
+    }
+
+    @FXML
+    public void editZone(){
+        zoneList.getSelectionModel().getSelectedItem().edit();
+    }
+
+    @FXML
+    public void removeZone(){
+        ((Zone) zoneList.getItems().get(zoneList.getSelectionModel().getSelectedIndex())).close();
+        zoneList.getItems().remove(zoneList.getSelectionModel().getSelectedItem());
     }
 
     @FXML

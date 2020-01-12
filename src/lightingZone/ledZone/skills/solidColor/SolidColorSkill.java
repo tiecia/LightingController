@@ -1,7 +1,7 @@
 package lightingZone.ledZone.skills.solidColor;
 
-import devices.opc.Animation;
-import devices.opc.PixelStrip;
+import devices.fadecandy.opc.Animation;
+import devices.fadecandy.opc.PixelStrip;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import lightingZone.ledZone.LedZone;

@@ -1,8 +1,8 @@
 package lightingZone.ledZone.skills.chroma;
 
 import devices.ControllableItem;
-import devices.opc.Animation;
-import devices.opc.PixelStrip;
+import devices.fadecandy.opc.Animation;
+import devices.fadecandy.opc.PixelStrip;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,13 +40,21 @@ public class Chroma extends Animation implements Skill, Initializable {
     private @FXML CheckBox reverseCheckbox;
     private @FXML CheckBox solidCheckbox;
 
+    //Default Options
+    private final boolean defSolidColor = false;
+    private final boolean defReverse = false;
+    private final int defFrameDelay = 0;
+    private final int defSpread = 3;
+    private final int defBrightness = 100;
+    private final int defSaturation = 100;
+
     //Options
-    private boolean solidColor = false;
-    private boolean reverse = false;
-    private int frameDelay = 20;
-    private int spread = 3;
-    private int brightness = 100;
-    private int saturation = 100;
+    private boolean solidColor = defSolidColor;
+    private boolean reverse = defReverse;
+    private int frameDelay = defFrameDelay;
+    private int spread = defSpread;
+    private int brightness = defBrightness;
+    private int saturation = defSaturation;
 
     public Chroma(LedZone zone){
         this.devices = zone.getDevices();
@@ -77,10 +85,10 @@ public class Chroma extends Animation implements Skill, Initializable {
             valueChanged();
             updateText();
         });
-        delaySlider.setValue((int)frameDelay);
-        spreadSlider.setValue((int)spread);
-        brightnessSlider.setValue((int)brightness);
-        saturationSlider.setValue((int)saturation);
+        delaySlider.setValue(defFrameDelay);
+        spreadSlider.setValue(defSpread);
+        brightnessSlider.setValue(defBrightness);
+        saturationSlider.setValue(defSaturation);
     }
 
     private @FXML void valueChanged(){
@@ -106,10 +114,6 @@ public class Chroma extends Animation implements Skill, Initializable {
         saturationSlider.setValue(Integer.parseInt(saturationText.getText()));
     }
 
-    private void textEditListeners(){
-
-    }
-
     @Override
     public void initData(LedZone zone) {
 
@@ -128,7 +132,7 @@ public class Chroma extends Animation implements Skill, Initializable {
 
     @Override
     public boolean draw(PixelStrip strip) {
-        Color c = Color.hsb(hue,saturation/100,brightness/100);
+        Color c = Color.hsb(hue,((double) saturation)/100.0, ((double) brightness)/100.0);
         if(solidColor) {
             for(int i = 0; i<strip.getPixelCount(); i++){
                 pixels[i] = c;
@@ -146,6 +150,9 @@ public class Chroma extends Animation implements Skill, Initializable {
                 }
             }
         }
+        System.out.println("Increment Factor: " + incrementFactor);
+        System.out.println("Hue" + pixels[0].getHue());
+        System.out.println("Integer" + makeColorFromHSB(pixels[0]));
         for (int i = 0; i < strip.getPixelCount(); i++) {
             strip.setPixelColor(i, makeColorFromHSB(pixels[i]));
         }

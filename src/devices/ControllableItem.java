@@ -6,4 +6,5 @@ public interface ControllableItem {
     public static Tab getControlTab() {
         return null;
     }
+    public void close();
 }

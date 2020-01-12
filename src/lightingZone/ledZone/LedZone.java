@@ -1,11 +1,12 @@
 package lightingZone.ledZone;
 
-import deviceConfigurator.fcServerSettings.fcBoard.FCStripSettings.FCStrip;
+import devices.fadecandy.fcStrip.FCStrip;
 import devices.ControllableItem;
-import devices.opc.Animation;
+import devices.fadecandy.opc.Animation;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import lightingZone.ControlTab;
@@ -21,6 +22,7 @@ public class LedZone extends Tab implements ControlTab {
     private ChoiceBox<Skill> skillChooser;
     @FXML
     private BorderPane layout;
+    private @FXML ScrollPane scrollPane;
 
     private HashSet<ControllableItem> devices;
 
@@ -32,12 +34,21 @@ public class LedZone extends Tab implements ControlTab {
         skillChooser.getItems().add(new Chroma(this));
         skillChooser.getSelectionModel().selectedItemProperty().addListener(e->{
             skillChooser.getSelectionModel().getSelectedItem().initData(this);
-            layout.setCenter(skillChooser.getSelectionModel().getSelectedItem().getPanel());
+            scrollPane.setContent(skillChooser.getSelectionModel().getSelectedItem().getPanel());
             for(ControllableItem s : devices){
                 ((FCStrip)s).getOPC().setAnimation((Animation)skillChooser.getSelectionModel().getSelectedItem());
                 ((FCStrip)s).getOPC().animate();
             }
         });
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+    }
+
+    @Override
+    public void close() {
+        for(ControllableItem ci : devices){
+            ci.close();
+        }
     }
 
     public void setPanel(Parent panel){

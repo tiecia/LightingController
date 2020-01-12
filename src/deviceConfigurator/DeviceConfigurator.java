@@ -1,16 +1,14 @@
 package deviceConfigurator;
 
 import deviceConfigurator.addDevice.AddDeviceController;
-import deviceConfigurator.fcServerSettings.FCServer;
+import devices.fadecandy.fcServer.FCServer;
 import devices.DeviceManager;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -48,7 +46,6 @@ public class DeviceConfigurator implements Initializable {
                 Parent selectedPage = ((DeviceManager) tree.getSelectionModel().getSelectedItem()).getSettingPage();
                 rootLayout.setCenter(selectedPage);
             } catch (ClassCastException e){
-                System.out.println("Root Selected");
                 return;
             }
             setContextMenu();
@@ -101,7 +98,7 @@ public class DeviceConfigurator implements Initializable {
     }
 
     private void newFadecandyServer(String ip, int port){
-        FXMLLoader newServerLoader = new FXMLLoader(getClass().getResource("fcServerSettings/fcServerSettings.fxml"));
+        FXMLLoader newServerLoader = new FXMLLoader(getClass().getResource("../devices/fadecandy/fcServer/fcServerSettings.fxml"));
         Parent newFCServerSettingPage = null;
         try {
             newFCServerSettingPage = newServerLoader.load();

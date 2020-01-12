@@ -19,7 +19,7 @@ public class ClassTest extends Application {
     public void start(Stage stage) throws Exception {
         Scanner s = new Scanner(System.in);
         System.out.println(s.getClass() == Scanner.class);
-        FXMLLoader loader = new FXMLLoader(ClassTest.class.getResource("../deviceConfigurator/fcServerSettings/fcServerSettings.fxml"));
+        FXMLLoader loader = new FXMLLoader(ClassTest.class.getResource("../devices/fadecandy/fcServer/fcServerSettings.fxml"));
         Parent p = loader.load();
         DeviceManager controller = loader.getController();
         System.out.println(controller.getClass());

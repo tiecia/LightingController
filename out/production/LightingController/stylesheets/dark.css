@@ -1,11 +1,61 @@
 .root{
-    fx-background-color:darkred
+    -fx-background-color: #4f4f4f;
 }
-
-vbox{
-    fx-background-color:goldenrod
+.menu-bar{
+    -fx-background-color: #3b3b3b;
 }
-
-button{
-    fx-background-color:goldenrod
+.menu-button{
+    -fx-text-fill: white;
+    -fx-background-color: #3b3b3b;
+}
+.menu-item {
+    -fx-background-color: #3b3b3b;
+}
+.menu-item:hover {
+    -fx-background-color: #6e6e6e;
+}
+.label{
+    -fx-text-fill: white;
+}
+.list-view{
+    -fx-background-color: #3b3b3b;
+}
+.list-cell{
+    -fx-text-fill: white;
+    -fx-cell-size: 30;
+}
+.list-cell:odd{
+    -fx-background-color: #4f4f4f;
+}
+.list-cell:even{
+    -fx-background-color: #3b3b3b;
+}
+.list-cell:hover{
+    -fx-background-color: #6e6e6e;
+}
+.list-cell:selected{
+    -fx-background-color: #336699;
+}
+.button{
+    -fx-background-color: #00aaff;
+    -fx-text-fill: white;
+}
+.button:hover{
+    -fx-background-color: #6bceff;
+}
+.tree-view{
+    -fx-background-color: #4f4f4f;
+}
+.tree-cell{
+    -fx-text-fill: white;
+    -fx-background-color: #524C4B;
+}
+.scroll-bar{
+    -fx-background-color: #3b3b3b;
+}
+.tab-pane{
+    -fx-background-color: #3b3b3b;
+}
+.text-field{
+    -fx-background-color: #D1D1D1;
 }

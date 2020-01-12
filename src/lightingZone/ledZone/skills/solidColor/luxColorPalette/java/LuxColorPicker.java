@@ -28,11 +28,11 @@
  */
 package lightingZone.ledZone.skills.solidColor.luxColorPalette.java;
 
-import deviceConfigurator.fcServerSettings.fcBoard.FCStripSettings.FCStrip;
+import devices.fadecandy.fcStrip.FCStrip;
 import devices.ControllableItem;
-import devices.opc.Animation;
-import devices.opc.OpcClient;
-import devices.opc.PixelStrip;
+import devices.fadecandy.opc.Animation;
+import devices.fadecandy.opc.OpcClient;
+import devices.fadecandy.opc.PixelStrip;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
