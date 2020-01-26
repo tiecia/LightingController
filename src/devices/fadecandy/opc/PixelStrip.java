@@ -35,7 +35,8 @@ public class PixelStrip {
 	 * execution. May be {@code null}.
 	 */
 	private Animation animation;
-	private RunningAnimation currentRunningAnimation;
+	private RunningAnimation repeatThread;
+
 
 	private PixelStrip thisStrip = this;
 
@@ -46,9 +47,10 @@ public class PixelStrip {
 		this.pixelCount = pixCount;
 		this.pinNumber = pin;
 		this.description = desc;
-		this.firstOpcPixel = device.opcOffset + device.pixelCount;
+		this.firstOpcPixel = firstOutputPixel+(pin*64);
 		this.firstOutputPixel = firstOutputPixel;
-		this.currentRunningAnimation = new RunningAnimation();
+		this.repeatThread = new RunningAnimation();
+		this.repeatThread.start();
 	}
 
 	/**
@@ -57,14 +59,7 @@ public class PixelStrip {
 	 * @return whether a {@code show} operation will be needed.
 	 */
 	public boolean animate() {
-		System.out.println("Animation Started on Device: " + toString());
-		animation.reset(this);
-		if (currentRunningAnimation == null) {
-			currentRunningAnimation = new RunningAnimation();
-		}
-		if(!currentRunningAnimation.isAlive()) {
-			this.currentRunningAnimation.start();
-		}
+		animation.draw(this);
 		return false;
 	}
 
@@ -77,10 +72,16 @@ public class PixelStrip {
 		}
 	}
 
-	public void close(){
-		currentRunningAnimation.stop();
-		currentRunningAnimation = new RunningAnimation();
+	public void resetThread(){
+		closeThread();
+		repeatThread = new RunningAnimation();
+		repeatThread.start();
+	}
+
+	public void closeThread(){
 		setAnimation(null);
+		repeatThread.stop();
+		repeatThread = null;
 	}
 
 	/**
@@ -161,17 +162,22 @@ public class PixelStrip {
 		return "PixelStrip(" + this.pixelCount + d + ")";
 	}
 
+	/**
+	 * This thread is constantly running and calls draw to whatever animation is registered to this {@link PixelStrip}.
+	 * If animation is null no draw is called. This Thread dies with the death of this object.
+	 */
 	private class RunningAnimation extends Thread{
 		public void run() {
-			if (animation != null) {
-				animation.draw(thisStrip);
+			while (true) {
+				if (animation != null) {
+					animation.draw(thisStrip);
+				}
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			run();
 		}
 	}
 }

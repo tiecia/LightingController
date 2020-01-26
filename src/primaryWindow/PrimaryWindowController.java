@@ -61,6 +61,7 @@ public class PrimaryWindowController implements Initializable {
         if(zoneList.getSelectionModel().getSelectedItem() != null) {
             contextMenuController.deselect(false);
             borderLayout.setCenter(zoneList.getSelectionModel().getSelectedItem().getPanel());
+            zoneList.getSelectionModel().getSelectedItem().setAnimations();
         } else {
             contextMenuController.deselect(true);
             borderLayout.setCenter(null);

@@ -30,14 +30,16 @@ public class LedZone extends Tab implements ControlTab {
 
     public void initData(HashSet<ControllableItem> devices){
         this.devices = devices;
+
+        //Add the different skills to the skill chooser
         skillChooser.getItems().add(new SolidColorSkill());
         skillChooser.getItems().add(new Chroma(this));
         skillChooser.getSelectionModel().selectedItemProperty().addListener(e->{
+            //Skill Changed
             skillChooser.getSelectionModel().getSelectedItem().initData(this);
             scrollPane.setContent(skillChooser.getSelectionModel().getSelectedItem().getPanel());
             for(ControllableItem s : devices){
                 ((FCStrip)s).getOPC().setAnimation((Animation)skillChooser.getSelectionModel().getSelectedItem());
-                ((FCStrip)s).getOPC().animate();
             }
         });
         scrollPane.setFitToHeight(true);
@@ -47,7 +49,14 @@ public class LedZone extends Tab implements ControlTab {
     @Override
     public void close() {
         for(ControllableItem ci : devices){
-            ci.close();
+            ci.resetThread();
+        }
+    }
+
+    @Override
+    public void setAnimation() {
+        for(ControllableItem c: devices) {
+            ((FCStrip) c).getOPC().setAnimation(((Animation) skillChooser.getSelectionModel().getSelectedItem()));
         }
     }
 

@@ -3,6 +3,7 @@ package devices.fadecandy.opc;
 
 import javafx.scene.paint.Color;
 
+
 /**
  * Parent class for all animations against a PixelStrip.
  */
@@ -55,6 +56,9 @@ public abstract class Animation {
 		return (r << 16) | (g << 8) | (b) ;
 	}
 
+	/**
+	 * Package a JavaFX HSB Color into a single integer.
+	 */
 	public static int makeColorFromHSB(Color c){
 		if(c == null){
 			return makeColor(0,0,0);

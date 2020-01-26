@@ -57,8 +57,11 @@ public class DMXController extends CheckBoxTreeItem<String> implements DeviceMan
         return "DMXController{}";
     }
 
+    public void resetThread(){
+        //TODO
+    }
     @Override
-    public void close() {
+    public void closeThread() {
         //TODO
     }
 }
