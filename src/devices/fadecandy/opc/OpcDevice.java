@@ -26,6 +26,8 @@ public class OpcDevice {
 	}
 
 	public void removeStrip(PixelStrip strip){
+		strip.clear();
+		strip.closeThread();
 		pixelCount -= strip.getPixelCount();
 		for(List<PixelStrip> list : stripList){
 			list.remove(strip);
@@ -33,7 +35,6 @@ public class OpcDevice {
 	}
 
 	public PixelStrip addPixelStrip(int pinNumber, int pixelCount, int firstOutputPixel) {
-		System.out.println("OPC Offset" + opcOffset);
 		return this.addPixelStrip(pinNumber, pixelCount, firstOutputPixel, null);
 	}
 
@@ -52,7 +53,9 @@ public class OpcDevice {
 
 	/**
 	 * Execute all registered animations on the {@link PixelStrip} objects.
-	 * 
+	 *
+	 * @param repeat whether the animation is constantly being called;
+	 *
 	 * @return whether a {@code show} operation will be needed.
 	 */
 	protected boolean animate() {
@@ -97,7 +100,7 @@ public class OpcDevice {
 	 * @param color color represented as an integer.
 	 */
 	protected void setPixelColor(int opcPixel, int color) {
-		this.opcClient.setPixelColor(opcPixel + opcOffset, color);
+		this.opcClient.setPixelColor(opcPixel /*+ opcOffset*/, color);
 	}
 	
 	protected int getMaxOpcPixel() {

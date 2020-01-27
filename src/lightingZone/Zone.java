@@ -58,6 +58,12 @@ public class Zone {
         }
     }
 
+    public void setAnimations() {
+        for(Tab t : tabbedPane.getTabs()){
+            ((ControlTab) t).setAnimation();
+        }
+    }
+
     @Override
     public String toString() {
         return name;
@@ -69,6 +75,7 @@ public class Zone {
         //Populate a Set of all items this zone controls
         HashSet<CheckBoxTreeItem<String>> selectedItems = new HashSet<>();
         findCheckedItems((CheckBoxTreeItem<String>) options.getTree().getRoot(), selectedItems);
+        System.out.println(selectedItems);
 
         //Map relates each ControllableDevice to their respective UI
         HashMap<LedZone, HashSet<ControllableItem>> tabs = new HashMap<>();
@@ -103,4 +110,6 @@ public class Zone {
             }
         }
     }
+
+
 }

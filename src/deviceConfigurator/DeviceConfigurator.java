@@ -3,6 +3,7 @@ package deviceConfigurator;
 import deviceConfigurator.addDevice.AddDeviceController;
 import devices.fadecandy.fcServer.FCServer;
 import devices.DeviceManager;
+import devices.fadecandy.fcStrip.FCStrip;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,10 +44,17 @@ public class DeviceConfigurator implements Initializable {
         tree.setContextMenu(contextMenu);
         tree.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             try {
-                Parent selectedPage = ((DeviceManager) tree.getSelectionModel().getSelectedItem()).getSettingPage();
-                rootLayout.setCenter(selectedPage);
+                DeviceManager selectedController = ((DeviceManager) tree.getSelectionModel().getSelectedItem());
+                if (selectedController != null) {
+                    Parent selectedPage = selectedController.getSettingPage();
+                    rootLayout.setCenter(selectedPage);
+
+                    //Only executes if the selected controller is an FCStrip
+                    FCStrip strip = ((FCStrip) selectedController);
+                    strip.getOPC().setAnimation(new PixelEditAnimation());
+                }
             } catch (ClassCastException e){
-                return;
+                System.out.println("Not PixelStrip");
             }
             setContextMenu();
         });

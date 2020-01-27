@@ -58,9 +58,12 @@ public class FCStrip extends CheckBoxTreeItem<String> implements DeviceManager, 
         super.setValue(toString());
     }
 
+    public void resetThread(){
+        strip.resetThread();
+    }
     @Override
-    public void close() {
-        strip.close();
+    public void closeThread() {
+        strip.closeThread();
     }
 
     public void removeThisStrip(){
@@ -125,6 +128,8 @@ public class FCStrip extends CheckBoxTreeItem<String> implements DeviceManager, 
             start = Integer.parseInt(firstPixelField.getText());
             System.out.println("Changed");
             Animation prevAnimation = strip.getAnimation();
+            strip.setAnimation(null);
+            strip.clear();
             boardManager.getOPC().removeStrip(strip);
             PixelStrip newStrip = boardManager.getOPC().addPixelStrip(pin, num, start);
             newStrip.setAnimation(prevAnimation);
