@@ -4,6 +4,8 @@ import deviceConfigurator.DeviceConfigurator;
 import devices.fadecandy.dmxController.DMXController;
 import devices.fadecandy.fcBoard.FCBoard;
 import devices.fadecandy.opc.OpcClient;
+import devices.DeviceManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FCServer extends CheckBoxTreeItem<String> implements Initializable, devices.DeviceManager {
+public class FCServer extends CheckBoxTreeItem<String> implements Initializable, DeviceManager {
 
     @FXML
     BorderPane borderPane;

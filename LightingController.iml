@@ -7,7 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="JavaFX-11.0.2" level="project" />
+    <orderEntry type="library" name="com.thoughtworks.xstream:xstream:1.4.11.1" level="project" />
+    <orderEntry type="library" name="com.dooapp.XStreamFX:XStreamFX:0.0.2" level="project" />
   </component>
 </module>

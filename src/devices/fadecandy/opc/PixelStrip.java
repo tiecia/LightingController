@@ -163,15 +163,16 @@ public class PixelStrip {
 
 	private class RunningAnimation extends Thread{
 		public void run() {
-			if (animation != null) {
-				animation.draw(thisStrip);
+			while(true) {
+				if (animation != null) {
+					animation.draw(thisStrip);
+				}
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			run();
 		}
 	}
 }

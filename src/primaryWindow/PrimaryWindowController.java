@@ -1,5 +1,9 @@
 package primaryWindow;
 
+import com.dooapp.xstreamfx.FXConverters;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import deviceConfigurator.DeviceConfigurator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,6 +90,16 @@ public class PrimaryWindowController implements Initializable {
     public void removeZone(){
         ((Zone) zoneList.getItems().get(zoneList.getSelectionModel().getSelectedIndex())).close();
         zoneList.getItems().remove(zoneList.getSelectionModel().getSelectedItem());
+    }
+
+    private @FXML void saveConfiguration(){
+        XStream xml = new XStream(new DomDriver());
+        FXConverters.configure(xml);
+        StringBuilder xmlString = new StringBuilder();
+        for(Zone zone : zoneList.getItems()) {
+            xmlString.append(xml.toXML(this));
+        }
+        System.out.println(xmlString);
     }
 
     @FXML
